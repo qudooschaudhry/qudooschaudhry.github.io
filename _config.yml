@@ -1,3 +1,5 @@
+name: QC
+title: null
 theme: jekyll-theme-minimal
 plugins:
   - jekyll-relative-links
