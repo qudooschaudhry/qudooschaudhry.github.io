@@ -5,6 +5,6 @@ relative_links:
   enabled: true
   collections: true
 include:
-  - README.md
+  - index.md
   - index2.md
   
