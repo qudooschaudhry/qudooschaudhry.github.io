@@ -4,5 +4,25 @@
 	<title />
 	<link rel="self" href="/" />
 	<rights>Copyright © 2021</rights>
-	<updated>2021-03-06T03:27:58Z</updated>
+	<updated>2021-03-06T03:57:03Z</updated>
+	<subtitle>random thoughts</subtitle>
+	<entry>
+		<id>/posts/aspnet-core-api-multiauth</id>
+		<title>ASP.NET API Multiple Authenticaiton Schemes</title>
+		<link href="/posts/aspnet-core-api-multiauth" />
+		<updated>2021-03-05T22:57:02Z</updated>
+		<content>&lt;h1 id="asp.net-core-web-api-multiple-authentication-schemes"&gt;asp.net Core Web API Multiple Authentication Schemes&lt;/h1&gt;
+&lt;p&gt;Tags: asp.net wasm&lt;/p&gt;
+</content>
+		<summary>random thoughts</summary>
+	</entry>
+	<entry>
+		<id>/posts/blazor-wasm-appsettings</id>
+		<title>Blazor Wasm Appsettings</title>
+		<link href="/posts/blazor-wasm-appsettings" />
+		<updated>2021-03-05T22:49:42Z</updated>
+		<content>&lt;h1 id="blazor-configuration-settings"&gt;Blazor configuration settings&lt;/h1&gt;
+</content>
+		<summary>random thoughts</summary>
+	</entry>
 </feed>

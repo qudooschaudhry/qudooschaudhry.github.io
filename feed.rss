@@ -1,11 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
 	<channel>
 		<title />
 		<link>/</link>
-		<description />
+		<description>random thoughts</description>
 		<copyright>Copyright © 2021</copyright>
-		<pubDate>Sat, 06 Mar 2021 03:27:58 GMT</pubDate>
-		<lastBuildDate>Sat, 06 Mar 2021 03:27:58 GMT</lastBuildDate>
+		<pubDate>Sat, 06 Mar 2021 03:57:03 GMT</pubDate>
+		<lastBuildDate>Sat, 06 Mar 2021 03:57:03 GMT</lastBuildDate>
+		<item>
+			<title>ASP.NET API Multiple Authenticaiton Schemes</title>
+			<link>/posts/aspnet-core-api-multiauth</link>
+			<description>random thoughts</description>
+			<guid isPermaLink="false">/posts/aspnet-core-api-multiauth</guid>
+			<pubDate>Fri, 05 Mar 2021 22:57:02 GMT</pubDate>
+			<content:encoded>&lt;h1 id="asp.net-core-web-api-multiple-authentication-schemes"&gt;asp.net Core Web API Multiple Authentication Schemes&lt;/h1&gt;
+&lt;p&gt;Tags: asp.net wasm&lt;/p&gt;
+</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
+		<item>
+			<title>Blazor Wasm Appsettings</title>
+			<link>/posts/blazor-wasm-appsettings</link>
+			<description>random thoughts</description>
+			<guid isPermaLink="false">/posts/blazor-wasm-appsettings</guid>
+			<pubDate>Fri, 05 Mar 2021 22:49:42 GMT</pubDate>
+			<content:encoded>&lt;h1 id="blazor-configuration-settings"&gt;Blazor configuration settings&lt;/h1&gt;
+</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
 	</channel>
 </rss>
