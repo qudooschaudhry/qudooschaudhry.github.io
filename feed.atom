@@ -4,25 +4,40 @@
 	<title />
 	<link rel="self" href="/" />
 	<rights>Copyright © 2021</rights>
-	<updated>2021-03-06T03:57:03Z</updated>
-	<subtitle>random thoughts</subtitle>
-	<entry>
-		<id>/posts/aspnet-core-api-multiauth</id>
-		<title>ASP.NET API Multiple Authenticaiton Schemes</title>
-		<link href="/posts/aspnet-core-api-multiauth" />
-		<updated>2021-03-05T22:57:02Z</updated>
-		<content>&lt;h1 id="asp.net-core-web-api-multiple-authentication-schemes"&gt;asp.net Core Web API Multiple Authentication Schemes&lt;/h1&gt;
-&lt;p&gt;Tags: asp.net wasm&lt;/p&gt;
-</content>
-		<summary>random thoughts</summary>
-	</entry>
+	<updated>2021-03-07T00:18:27Z</updated>
 	<entry>
 		<id>/posts/blazor-wasm-appsettings</id>
-		<title>Blazor Wasm Appsettings</title>
+		<title>Blazor WASM Application Settings</title>
 		<link href="/posts/blazor-wasm-appsettings" />
-		<updated>2021-03-05T22:49:42Z</updated>
-		<content>&lt;h1 id="blazor-configuration-settings"&gt;Blazor configuration settings&lt;/h1&gt;
+		<updated>2021-03-06T19:18:25Z</updated>
+		<content>&lt;p&gt;Recently, we had an opportunity to build a brand new application for a subset of our customers. It seemed like a perfect opportunity to try Blazor in a production setting as the application was not going to be too large (famous last words:)).&lt;/p&gt;
+&lt;p&gt;One of the things we had to figure out was how to determine environments within the Blazor Web Assembly application. The Blazor Web Assemlby project supports &lt;code&gt;appsettings.json&lt;/code&gt; files, which has to be created in the wwwroot folder inside the WASM project. When a request comes into the application, the appsettings.json file is sent as part of the first package that gets downloaded.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/file.png" alt="File"&gt;&lt;/p&gt;
+&lt;p&gt;We had to figure out how to push the &lt;code&gt;appsettings.DEV.json&lt;/code&gt; and &lt;code&gt;appsettings.PRD.json&lt;/code&gt; files from our various environments. These files can have things like the environment specific API Url.&lt;/p&gt;
+&lt;p&gt;By default, when we publish a WASM project, it generates a web.config inside the output folder, which has a bunch of things that allow for the WASM application to be served correctly. To setup the correct environment, we have to send a custom header named &lt;code&gt;blazor-environment&lt;/code&gt;. The WASM application then uses this to determing which &lt;code&gt;appsettings&lt;/code&gt; file to use.&lt;/p&gt;
+&lt;p&gt;For instance in our case we ended up adding this to the generated web.config file during our publish process&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;httpProtocol&amp;gt;
+    &amp;lt;customHeaders&amp;gt;
+        &amp;lt;add name="blazor-environment" value="DEV" /&amp;gt;
+    &amp;lt;/customHeaders&amp;gt;
+&amp;lt;/httpProtocol&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When we add this, the appropriate &lt;code&gt;appsettings&lt;/code&gt; file is also pushed with the first download.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/file2.png" alt="File2"&gt;&lt;/p&gt;
+&lt;p&gt;Now, we just had to automate this in our build process. After adding the specific &lt;code&gt;web.DEV.config&lt;/code&gt; and &lt;code&gt;web.PRD.config&lt;/code&gt;, we updated the WASM csproj file to have the following target added, we utilized the &lt;code&gt;Microsoft.DotNet.Xdt.Tools&lt;/code&gt; nuget package to perform our config transforms. We just had to edit our WASM csproj file like so.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;Target Name="ApplyXdtConfigTransform" BeforeTargets="_TransformWebConfig"&amp;gt;
+    &amp;lt;PropertyGroup&amp;gt;
+      &amp;lt;_SourceWebConfig&amp;gt;$(MSBuildThisFileDirectory)Web.config&amp;lt;/_SourceWebConfig&amp;gt;
+      &amp;lt;_XdtTransform&amp;gt;$(MSBuildThisFileDirectory)Web.$(Configuration).config&amp;lt;/_XdtTransform&amp;gt;
+      &amp;lt;_TargetWebConfig&amp;gt;$(PublishDir)Web.config&amp;lt;/_TargetWebConfig&amp;gt;
+    &amp;lt;/PropertyGroup&amp;gt;
+    &amp;lt;Exec Command="dotnet xdt --source &amp;amp;quot;$(_SourceWebConfig)&amp;amp;quot; --transform &amp;amp;quot;$(_XdtTransform)&amp;amp;quot; --output &amp;amp;quot;$(_TargetWebConfig)&amp;amp;quot;" Condition="Exists('$(_XdtTransform)')" /&amp;gt;
+  &amp;lt;/Target&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;...and that is pretty much it.&lt;/p&gt;
+&lt;p&gt;Happy coding.&lt;/p&gt;
+&lt;p&gt;~Q&lt;/p&gt;
 </content>
-		<summary>random thoughts</summary>
+		<summary>&lt;p&gt;Recently, we had an opportunity to build a brand new application for a subset of our customers. It seemed like a perfect opportunity to try Blazor in a production setting as the application was not going to be too large (famous last words:)).&lt;/p&gt;</summary>
 	</entry>
 </feed>
