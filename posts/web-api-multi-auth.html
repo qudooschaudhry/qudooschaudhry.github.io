@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Q&#x27;s Log - ASP.NET Web API Multi-Auth</title>
+
+  <link rel="canonical" href="/posts/web-api-multi-auth">
+
+      <link type="application/rss+xml" rel="alternate" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" href="/feed.atom" />
+  
+  <meta name="application-name" content="Q&#x27;s Log" />
+  <meta name="msapplication-tooltip" content="Q&#x27;s Log" />
+  <meta name="msapplication-starturl" content="/" />
+
+  <meta property="og:title" content="Q&#x27;s Log - ASP.NET Web API Multi-Auth" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/posts/web-api-multi-auth" />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="/vendor/bootstrap/scss/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/fontawesome-free/css/brands.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css' data-no-mirror>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' data-no-mirror>
+  
+  <!-- Custom styles for this template -->
+  <link href="/scss/clean-blog.css" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.19.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.0.0/dist/quicklink.umd.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.19.0/themes/prism.css">
+  
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="/">Q&#x27;s Log</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About Me</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/posts">Posts</a>
+            </li>
+</ul>
+    </div>
+  </div>
+</nav>
+
+  <!-- Page Header -->
+  <header class="masthead">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="post-heading">
+          <h1>
+            ASP.NET Web API Multi-Auth
+          </h1>
+              <div class="meta">Published on March 6, 2021</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Main Content -->
+  <div class="container"> 
+    <div class="row">
+      <div id="content" class="col-md-12">  
+        <p>We are building an application that is to be used by our customers, but also some internal folks at our company. Since we are on office 365, we thought it made sense to have our internal team login using office 365. The external clients were setup using asp.net Identity aka local accounts.</p>
+<p>Seting up the multiple authorizations is quite easy as it all happens inside the startup pipeline through the use of middleware. The Microsoft Identity platform has a very handy extension method for setting that up.</p>
+<pre><code class="language-c">services.AddAuthentication().AddMicrosoftIdentityWebApi(Configuration, &quot;AzureAd&quot;, &quot;AzureAd&quot;);`
+</code></pre>
+<p>The second parmeter is the key of the configuration item in the <code>appsettings.json</code> like so</p>
+<pre><code class="language-json">&quot;AzureAd&quot;: {
+    &quot;Instance&quot;: &quot;https://login.microsoftonline.com/&quot;,
+    &quot;Tenant&quot;: &quot;&lt;your tenant name&gt;&quot;,
+    &quot;Audience&quot;: &quot;&lt;the client id of the registered application within Azure&gt;&quot;,
+    &quot;TenantId&quot;: &quot;&lt;your tenante id&gt;&quot;,
+    &quot;ClientId&quot;: &quot;&lt;the client id of the registered application within Azure&gt;&quot;,
+    &quot;CallbackPath&quot;: &quot;/signin-oidc&quot;
+  }
+</code></pre>
+<p>The third parameter is a name you give to this authentication scheme, which can later be utilized on the controllers or actions like so</p>
+<pre><code class="language-c">    [Route(&quot;[controller]&quot;), ApiController, Authorize(AuthenticationSchemes = &quot;AzureAd&quot;)]
+    public class MyController : BaseController
+</code></pre>
+<p>for the local accounts, I was so inspired by the clean one line setup of the <code>AddMicrosoftIdentityWebApi extension</code> method that I added my own in the same way</p>
+<pre><code class="language-c">    services.AddLocalAuthorization(Configuration);
+</code></pre>
+<p>and then I added my extension class like so</p>
+<pre><code class="language-c">
+public static class AuthenticationExtensions
+    {
+        public static IServiceCollection AddLocalAuthorization(
+            this IServiceCollection serviceCollection,
+            IConfiguration configuration)
+        {
+            serviceCollection
+                .AddAuthorization(options =&gt;
+                {
+                    options.AddLocalAuthPolicy();
+                })
+                .AddAuthentication(&quot;LocalAccountsScheme&quot;)
+                .AddJwtBearer(&quot;LocalAccountsScheme&quot;,
+                    options =&gt;
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = configuration.GetSection(&quot;TokenConfiguration&quot;)[&quot;Issuer&quot;],
+                            ValidateAudience = true,
+                            ValidAudience = configuration.GetSection(&quot;TokenConfiguration&quot;)[&quot;Audience&quot;],
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection(&quot;TokenConfiguration&quot;)[&quot;SecretKey&quot;]))
+                        };
+                    });
+
+            return serviceCollection;
+        }
+
+        private static AuthorizationOptions AddLocalAuthPolicy(this AuthorizationOptions options)
+        {
+            var policy = new AuthorizationPolicyBuilder()
+                .AddAuthenticationSchemes(&quot;LocalAccountsScheme&quot;)
+                .RequireAuthenticatedUser()
+                .Build();
+
+            options.AddPolicy(&quot;LocalAccountsPolicy&quot;, policy);
+            return options;
+        }
+    }
+
+</code></pre>
+<p>and then the controllers are decorated the same way</p>
+<pre><code class="language-c">    [Route(&quot;[controller]&quot;), ApiController, Authorize(AuthenticationSchemes = &quot;LocalAccountsScheme&quot;)]
+    public class MyController : BaseController
+</code></pre>
+<p>Now, when the Bearer token is passed from the UI, the appropriate mechanism to validate the token is used based on the authentication scheme on the controller.</p>
+<p>One thing to remember when registering the application in Azure AD is to ensure it is setup as a SPA application and issues Id_Tokens. Without that, the UI application will not be able to get the JWT tokens from Azure AD.</p>
+<p>Happy coding.</p>
+<p>~Q</p>
+
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->  
+  <footer>
+    <div class="container">
+        <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="copyright text-muted m-0">Copyright &#xA9; 2021</p>
+                    <br />
+                    <ul class="list-inline text-center small">
+                            <li class="list-inline-item">
+                                <a href="/feed.rss"><i class="fa fa-rss"></i> RSS Feed</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/feed.atom"><i class="fa fa-rss"></i> Atom Feed</a>
+                            </li>
+                    </ul>
+                    <br />
+                    <div class="font-weight-bold small"><a href="https://statiq.dev">Generated by Statiq</a></div>
+                </div>
+        </div>
+    </div>
+</footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  
+
+
+  
+
+  <!-- Custom scripts for this template -->
+  <script src="/js/clean-blog.js"></script>
+
+</body>
+
+</html>
