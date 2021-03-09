@@ -5,14 +5,14 @@
 		<link>/</link>
 		<description />
 		<copyright>Copyright © 2021</copyright>
-		<pubDate>Sun, 07 Mar 2021 00:53:16 GMT</pubDate>
-		<lastBuildDate>Sun, 07 Mar 2021 00:53:16 GMT</lastBuildDate>
+		<pubDate>Tue, 09 Mar 2021 01:39:54 GMT</pubDate>
+		<lastBuildDate>Tue, 09 Mar 2021 01:39:54 GMT</lastBuildDate>
 		<item>
 			<title>ASP.NET Web API Multi-Auth</title>
 			<link>/posts/web-api-multi-auth</link>
 			<description>&lt;p&gt;We are building an application that is to be used by our customers, but also some internal folks at our company. Since we are on office 365, we thought it made sense to have our internal team login using office 365. The external clients were setup using asp.net Identity aka local accounts.&lt;/p&gt;</description>
 			<guid isPermaLink="false">/posts/web-api-multi-auth</guid>
-			<pubDate>Sat, 06 Mar 2021 19:53:15 GMT</pubDate>
+			<pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
 			<content:encoded>&lt;p&gt;We are building an application that is to be used by our customers, but also some internal folks at our company. Since we are on office 365, we thought it made sense to have our internal team login using office 365. The external clients were setup using asp.net Identity aka local accounts.&lt;/p&gt;
 &lt;p&gt;Seting up the multiple authorizations is quite easy as it all happens inside the startup pipeline through the use of middleware. The Microsoft Identity platform has a very handy extension method for setting that up.&lt;/p&gt;
 &lt;pre&gt;&lt;code class="language-c"&gt;services.AddAuthentication().AddMicrosoftIdentityWebApi(Configuration, &amp;quot;AzureAd&amp;quot;, &amp;quot;AzureAd&amp;quot;);`
@@ -94,12 +94,12 @@ public static class AuthenticationExtensions
 			<link>/posts/blazor-wasm-appsettings</link>
 			<description>&lt;p&gt;Recently, we had an opportunity to build a brand new application for a subset of our customers. It seemed like a perfect opportunity to try Blazor in a production setting as the application was not going to be too large (famous last words:)).&lt;/p&gt;</description>
 			<guid isPermaLink="false">/posts/blazor-wasm-appsettings</guid>
-			<pubDate>Sat, 06 Mar 2021 19:18:25 GMT</pubDate>
+			<pubDate>Fri, 05 Mar 2021 00:00:00 GMT</pubDate>
 			<content:encoded>&lt;p&gt;Recently, we had an opportunity to build a brand new application for a subset of our customers. It seemed like a perfect opportunity to try Blazor in a production setting as the application was not going to be too large (famous last words:)).&lt;/p&gt;
 &lt;p&gt;One of the things we had to figure out was how to determine environments within the Blazor Web Assembly application. The Blazor Web Assemlby project supports &lt;code&gt;appsettings.json&lt;/code&gt; files, which has to be created in the wwwroot folder inside the WASM project. When a request comes into the application, the appsettings.json file is sent as part of the first package that gets downloaded.&lt;/p&gt;
 &lt;p&gt;&lt;img src="/file.png" alt="File"&gt;&lt;/p&gt;
 &lt;p&gt;We had to figure out how to push the &lt;code&gt;appsettings.DEV.json&lt;/code&gt; and &lt;code&gt;appsettings.PRD.json&lt;/code&gt; files from our various environments. These files can have things like the environment specific API Url.&lt;/p&gt;
-&lt;p&gt;By default, when we publish a WASM project, it generates a web.config inside the output folder, which has a bunch of things that allow for the WASM application to be served correctly. To setup the correct environment, we have to send a custom header named &lt;code&gt;blazor-environment&lt;/code&gt;. The WASM application then uses this to determing which &lt;code&gt;appsettings&lt;/code&gt; file to use.&lt;/p&gt;
+&lt;p&gt;By default, when we publish a WASM project, it generates a web.config inside the output folder, which has a bunch of things that allow for the WASM application to be served correctly. To setup the correct environment, we have to send a custom header named &lt;code&gt;blazor-environment&lt;/code&gt;. The WASM application then uses this to determine which &lt;code&gt;appsettings&lt;/code&gt; file to use.&lt;/p&gt;
 &lt;p&gt;For instance in our case we ended up adding this to the generated web.config file during our publish process&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;lt;httpProtocol&amp;gt;
     &amp;lt;customHeaders&amp;gt;
@@ -109,7 +109,7 @@ public static class AuthenticationExtensions
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;When we add this, the appropriate &lt;code&gt;appsettings&lt;/code&gt; file is also pushed with the first download.&lt;/p&gt;
 &lt;p&gt;&lt;img src="/file2.png" alt="File2"&gt;&lt;/p&gt;
-&lt;p&gt;Now, we just had to automate this in our build process. After adding the specific &lt;code&gt;web.DEV.config&lt;/code&gt; and &lt;code&gt;web.PRD.config&lt;/code&gt;, we updated the WASM csproj file to have the following target added, we utilized the &lt;code&gt;Microsoft.DotNet.Xdt.Tools&lt;/code&gt; nuget package to perform our config transforms. We just had to edit our WASM csproj file like so.&lt;/p&gt;
+&lt;p&gt;We added the default web.config into our WASM project and also added the specific &lt;code&gt;web.DEV.config&lt;/code&gt; and &lt;code&gt;web.PRD.config&lt;/code&gt;. We also updated the WASM csproj file to have the following target added and utilized the &lt;code&gt;Microsoft.DotNet.Xdt.Tools&lt;/code&gt; nuget package to perform our config transforms. We just had to edit our WASM csproj file like so.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;lt;Target Name="ApplyXdtConfigTransform" BeforeTargets="_TransformWebConfig"&amp;gt;
     &amp;lt;PropertyGroup&amp;gt;
       &amp;lt;_SourceWebConfig&amp;gt;$(MSBuildThisFileDirectory)Web.config&amp;lt;/_SourceWebConfig&amp;gt;
