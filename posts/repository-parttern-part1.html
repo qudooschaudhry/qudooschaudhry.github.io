@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Q&#x27;s Log - Repository Pattern - Part 1</title>
+
+  <link rel="canonical" href="/posts/repository-parttern-part1">
+
+      <link type="application/rss+xml" rel="alternate" href="/feed.rss" />
+      <link type="application/atom+xml" rel="alternate" href="/feed.atom" />
+  
+  <meta name="application-name" content="Q&#x27;s Log" />
+  <meta name="msapplication-tooltip" content="Q&#x27;s Log" />
+  <meta name="msapplication-starturl" content="/" />
+
+  <meta property="og:title" content="Q&#x27;s Log - Repository Pattern - Part 1" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/posts/repository-parttern-part1" />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="/vendor/bootstrap/scss/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/fontawesome-free/css/brands.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css' data-no-mirror>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' data-no-mirror>
+  
+  <!-- Custom styles for this template -->
+  <link href="/scss/clean-blog.css" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.19.0/plugins/autoloader/prism-autoloader.min.js" data-no-mirror></script>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.0.0/dist/quicklink.umd.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.19.0/themes/prism.css">
+  
+  
+
+
+  
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="/">Q&#x27;s Log</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/posts">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/tags">Tags</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About Me</a>
+            </li>
+</ul>
+    </div>
+  </div>
+</nav>
+
+  <!-- Page Header -->
+  <header class="masthead">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="post-heading">
+          <h1>
+            Repository Pattern - Part 1
+          </h1>
+              <div class="meta">Published on March 22, 2021</div>
+                <div class="mt-3">
+                      <a href="/tags/patterns" class="badge badge-light"> Patterns</a>
+                      <a href="/tags/ddd" class="badge badge-light"> DDD</a>
+                      <a href="/tags/orm" class="badge badge-light"> ORM</a>
+                      <a href="/tags/opinionated" class="badge badge-light"> Opinionated</a>
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Main Content -->
+  <div class="container"> 
+    <div class="row">
+      <div id="content" class="col-md-12">  
+        <p>Recently, I had this <a href="https://twitter.com/qudooschaudhry/status/1372643561204748294">conversation</a> on twitter regarding The Respository Pattern.</p>
+<p><img src="tweet_repo.png" alt="Tweet Repo" /></p>
+<p>There is a lot of material out there talking in favour of or against the repository pattern. It is hard to explain your point on twitter, so I thought I need to document my thoughts in the form of a post. So, let's dive in.</p>
+<h2 id="what-is-the-repository-pattern">What is The Repository Pattern?</h2>
+<p>As awlays, Martin Fowler has a good quick <a href="https://martinfowler.com/eaaCatalog/repository.html">explanation</a> on the PEAA catalog. That first line</p>
+<p><em>Mediates between the domain and data mapping layers using a collection-like interface for accessing domain objects.</em></p>
+<p>pretty much sums it up. As far as my knowledge is concerened, I think the pattern gained a popularity after the famous <a href="https://www.domainlanguage.com/ddd/">DDD blue book</a>. In his book, Evans describes the repository like so</p>
+<p><em><strong>For each type of object that needs global access, create an object that can provide the
+illusion of an in-memory collection of all objects of that type. Set up access through a
+well-known global interface. Provide methods to add and remove objects, which will
+encapsulate the actual insertion or removal of data in the data store. Provide methods
+that select objects based on some criteria and return fully instantiated objects or
+collections of objects whose attribute values meet the criteria, thereby encapsulating
+the actual storage and query technology. Provide REPOSITORIES only for AGGREGATE roots
+that actually need direct access. Keep the client focused on the model, delegating all
+object storage and access to the REPOSITORIES.</strong></em></p>
+<p>This makes a lot of sense. Keep data access and storage capabilities away from the domain model, and let the domain model handle the business requirements. As someone who has been practicing DDD for quite sometime, I cannot agree more with this and the separation that it provides in our codebases. However, I think if we are using a decent ORM, building a repository on top of that comes with some problems and I want to highlight those here.</p>
+<h2 id="the-domain">The Domain :)</h2>
+<p>I have picked a simple but realistic domain. Not your everyday blog or todo list. ;)</p>
+<p>Today we are working with e-learning system. Specifically, a learning management system that acts as a backoffice application to manage course content. The team has worked hard to understand some of the requirements and have identified some entities within the system namely;</p>
+<ol>
+<li>Course</li>
+<li>Chapter</li>
+<li>Page</li>
+<li>Section</li>
+<li>SectionType</li>
+</ol>
+<p>Our team is new to DDD. While we have tried hard to not think about the underlying database, we cannot help it that an RDBMS is going to be holding the state of our domain objects. Some of our relational thinking has naturally seeped into our design, for instance, a <em>Course</em> has <em>Chapters</em> which has <em>Pages</em>, which in turn can have multiple <em>Sections</em>. After days of discussions, we have come to the conclusion that Course is the <em>aggregate root</em> in this context.</p>
+<p><em>Side note: some of this can be deemed as bikeshedding. DDD encourages continual learning of our domain and adjust as we discover new things. Nothing will be right the first day, but since we lock ourselves into underlying technologies because that is all we know or how we have always done things, we end up trying to make these decisions upfront, which in some cases are not trivial.</em></p>
+<h2 id="requirements-for-version-1">Requirements for version 1</h2>
+<p>Here are the highlevel requirements for version 1.</p>
+<ol>
+<li>As a course designer, I need to be able to see the list of all course.</li>
+<li>As a course designer, I need to be able to select a course and edit it's properties.</li>
+</ol>
+<h2 id="project-structure-and-running-the-project">Project Structure and running the project</h2>
+<p>The project is located at my <a href="https://github.com/qudooschaudhry/RepositoryPattern/tree/part1">github</a> in the branch called part1.</p>
+<p>The project follows the popular (and notorious) clean architecture style. I chose it for familiarity and kept it the way most people implement it i.e. technology structured as opposed to feature structured. So the main projects are</p>
+<ol>
+<li>LMS.UI - asp.net mvc project (controllers and views)</li>
+<li>LMS.Infrastructure</li>
+<li>LMS.Domain</li>
+</ol>
+<p>I skipped an application layer because I am trying to focus only on the repository layer, so the repositories are injected into the controllers.</p>
+<p>The project is built on .net 5.0 and uses <code>docker-compose</code> to bring up a sql server instance. I have not had much luck with docker-compose so I usually do a <code>docker pull microsoft/mssql-server-windows-developer</code> first.</p>
+<p>Should be able to run the project via F5. Once the migration has run you should be able to use SSMS to connect to the SQL Server at localhost,51433. SA password is in docker compose file. There is a script in the scripts folder to populate with some course data.</p>
+<p>Browsing to /courses should give you a list of course and clicking on a course should bring you to an edit form.</p>
+<p>The <code>Index</code> view on the <code>CoursesController</code> uses the repository to load all course</p>
+<pre><code class="language-C"> public async Task&lt;IActionResult&gt; Index(CancellationToken cancellationToken)
+{
+    var courses = await _courseRepository.GetAll(cancellationToken);
+            
+    return View(courses.Select(c =&gt; new CourseItemModel() 
+    { 
+        Id = c.Id,
+        Name = c.Name,
+        Startdate = c.StartDate,
+        EndDate = c.EndDate
+    }));
+}
+</code></pre>
+<p>The <code>CourseRepository</code> uses the EF data context to perform the required operations</p>
+<pre><code class="language-c">public async Task&lt;IEnumerable&lt;Course&gt;&gt; GetAll(CancellationToken cancellationToken)
+{
+    await Task.Delay(0, cancellationToken);
+    return _context.Courses.ToList();
+}
+</code></pre>
+<p>I have tried to keep the repository layer as simple as possible and not have any other noise code so it is easier to follow along.</p>
+<p>Download the code and debug through it, or read it on github. That's it for part 1. In subsequent parts, I will be adding more funcitonality to the LMS and show how the repository pattern will start to become a problem as the code continues to grow.</p>
+<p>Happy coding.</p>
+<p>~Q</p>
+
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Footer -->  
+  <footer>
+    <div class="container">
+        <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="copyright text-muted m-0">Copyright &#xA9; 2021</p>
+                    <br />
+                    <ul class="list-inline text-center small">
+                            <li class="list-inline-item">
+                                <a href="/feed.rss"><i class="fa fa-rss"></i> RSS Feed</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/feed.atom"><i class="fa fa-rss"></i> Atom Feed</a>
+                            </li>
+                    </ul>
+                    <br />
+                    <div class="font-weight-bold small"><a href="https://statiq.dev">Generated by Statiq</a></div>
+                </div>
+        </div>
+    </div>
+</footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  
+
+
+  
+
+  <!-- Custom scripts for this template -->
+  <script src="/js/clean-blog.js"></script>
+
+</body>
+
+</html>
