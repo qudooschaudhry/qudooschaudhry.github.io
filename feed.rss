@@ -5,8 +5,8 @@
 		<link>/</link>
 		<description />
 		<copyright>Copyright © 2021</copyright>
-		<pubDate>Thu, 25 Mar 2021 00:56:16 GMT</pubDate>
-		<lastBuildDate>Thu, 25 Mar 2021 00:56:16 GMT</lastBuildDate>
+		<pubDate>Thu, 25 Mar 2021 01:01:14 GMT</pubDate>
+		<lastBuildDate>Thu, 25 Mar 2021 01:01:14 GMT</lastBuildDate>
 		<item>
 			<title>Repository Pattern - Part 1</title>
 			<link>/posts/repository-parttern-part1</link>
@@ -15,8 +15,9 @@
 			<pubDate>Wed, 24 Mar 2021 00:00:00 GMT</pubDate>
 			<content:encoded>&lt;p&gt;Recently, I had this &lt;a href="https://twitter.com/qudooschaudhry/status/1372643561204748294"&gt;conversation&lt;/a&gt; on twitter regarding The Respository Pattern.&lt;/p&gt;
 &lt;p&gt;&lt;img src="/tweet_repo.png" alt="Tweet Repo"&gt;&lt;/p&gt;
-&lt;p&gt;There is a lot of material out there talking in favour of or against the repository pattern. It is hard to explain your point on twitter, so I thought I need to document my thoughts in the form of a post. So, let's dive in.&lt;/p&gt;
-&lt;h2 id="what-is-the-repository-pattern"&gt;What is The Repository Pattern?&lt;/h2&gt;
+&lt;p&gt;I know, my response is a little cheeky. A better answer would have been "it depends" ;)&lt;/p&gt;
+&lt;p&gt;I think there are times when it makes sense and there is a lot of material out there talking in favour of or against the repository pattern. I also wanted to document my thoughts in the form of a post. So, let's dive in.&lt;/p&gt;
+&lt;h2 id="what-is-the-repository-pattern"&gt;What is the Repository Pattern?&lt;/h2&gt;
 &lt;p&gt;As awlays, Martin Fowler has a good quick &lt;a href="https://martinfowler.com/eaaCatalog/repository.html"&gt;explanation&lt;/a&gt; on the PEAA catalog. That first line&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Mediates between the domain and data mapping layers using a collection-like interface for accessing domain objects.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;pretty much sums it up. As far as my knowledge is concerened, I think the pattern gained a popularity after the famous &lt;a href="https://www.domainlanguage.com/ddd/"&gt;DDD blue book&lt;/a&gt;. In his book, Evans describes the repository like so&lt;/p&gt;

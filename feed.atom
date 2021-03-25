@@ -4,7 +4,7 @@
 	<title />
 	<link rel="self" href="/" />
 	<rights>Copyright © 2021</rights>
-	<updated>2021-03-25T00:56:16Z</updated>
+	<updated>2021-03-25T01:01:14Z</updated>
 	<entry>
 		<id>/posts/repository-parttern-part1</id>
 		<title>Repository Pattern - Part 1</title>
@@ -12,8 +12,9 @@
 		<updated>2021-03-24T00:00:00Z</updated>
 		<content>&lt;p&gt;Recently, I had this &lt;a href="https://twitter.com/qudooschaudhry/status/1372643561204748294"&gt;conversation&lt;/a&gt; on twitter regarding The Respository Pattern.&lt;/p&gt;
 &lt;p&gt;&lt;img src="/tweet_repo.png" alt="Tweet Repo"&gt;&lt;/p&gt;
-&lt;p&gt;There is a lot of material out there talking in favour of or against the repository pattern. It is hard to explain your point on twitter, so I thought I need to document my thoughts in the form of a post. So, let's dive in.&lt;/p&gt;
-&lt;h2 id="what-is-the-repository-pattern"&gt;What is The Repository Pattern?&lt;/h2&gt;
+&lt;p&gt;I know, my response is a little cheeky. A better answer would have been "it depends" ;)&lt;/p&gt;
+&lt;p&gt;I think there are times when it makes sense and there is a lot of material out there talking in favour of or against the repository pattern. I also wanted to document my thoughts in the form of a post. So, let's dive in.&lt;/p&gt;
+&lt;h2 id="what-is-the-repository-pattern"&gt;What is the Repository Pattern?&lt;/h2&gt;
 &lt;p&gt;As awlays, Martin Fowler has a good quick &lt;a href="https://martinfowler.com/eaaCatalog/repository.html"&gt;explanation&lt;/a&gt; on the PEAA catalog. That first line&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Mediates between the domain and data mapping layers using a collection-like interface for accessing domain objects.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;pretty much sums it up. As far as my knowledge is concerened, I think the pattern gained a popularity after the famous &lt;a href="https://www.domainlanguage.com/ddd/"&gt;DDD blue book&lt;/a&gt;. In his book, Evans describes the repository like so&lt;/p&gt;
