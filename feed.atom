@@ -4,12 +4,12 @@
 	<title />
 	<link rel="self" href="/" />
 	<rights>Copyright © 2021</rights>
-	<updated>2021-03-25T00:53:01Z</updated>
+	<updated>2021-03-25T00:56:16Z</updated>
 	<entry>
 		<id>/posts/repository-parttern-part1</id>
 		<title>Repository Pattern - Part 1</title>
 		<link href="/posts/repository-parttern-part1" />
-		<updated>2021-03-22T00:00:00Z</updated>
+		<updated>2021-03-24T00:00:00Z</updated>
 		<content>&lt;p&gt;Recently, I had this &lt;a href="https://twitter.com/qudooschaudhry/status/1372643561204748294"&gt;conversation&lt;/a&gt; on twitter regarding The Respository Pattern.&lt;/p&gt;
 &lt;p&gt;&lt;img src="/tweet_repo.png" alt="Tweet Repo"&gt;&lt;/p&gt;
 &lt;p&gt;There is a lot of material out there talking in favour of or against the repository pattern. It is hard to explain your point on twitter, so I thought I need to document my thoughts in the form of a post. So, let's dive in.&lt;/p&gt;

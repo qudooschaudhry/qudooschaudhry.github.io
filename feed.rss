@@ -5,14 +5,14 @@
 		<link>/</link>
 		<description />
 		<copyright>Copyright © 2021</copyright>
-		<pubDate>Thu, 25 Mar 2021 00:53:01 GMT</pubDate>
-		<lastBuildDate>Thu, 25 Mar 2021 00:53:01 GMT</lastBuildDate>
+		<pubDate>Thu, 25 Mar 2021 00:56:16 GMT</pubDate>
+		<lastBuildDate>Thu, 25 Mar 2021 00:56:16 GMT</lastBuildDate>
 		<item>
 			<title>Repository Pattern - Part 1</title>
 			<link>/posts/repository-parttern-part1</link>
 			<description>&lt;p&gt;Recently, I had this &lt;a href="https://twitter.com/qudooschaudhry/status/1372643561204748294"&gt;conversation&lt;/a&gt; on twitter regarding The Respository Pattern.&lt;/p&gt;</description>
 			<guid isPermaLink="false">/posts/repository-parttern-part1</guid>
-			<pubDate>Mon, 22 Mar 2021 00:00:00 GMT</pubDate>
+			<pubDate>Wed, 24 Mar 2021 00:00:00 GMT</pubDate>
 			<content:encoded>&lt;p&gt;Recently, I had this &lt;a href="https://twitter.com/qudooschaudhry/status/1372643561204748294"&gt;conversation&lt;/a&gt; on twitter regarding The Respository Pattern.&lt;/p&gt;
 &lt;p&gt;&lt;img src="/tweet_repo.png" alt="Tweet Repo"&gt;&lt;/p&gt;
 &lt;p&gt;There is a lot of material out there talking in favour of or against the repository pattern. It is hard to explain your point on twitter, so I thought I need to document my thoughts in the form of a post. So, let's dive in.&lt;/p&gt;
